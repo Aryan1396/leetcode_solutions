@@ -1,51 +1,153 @@
-<h2><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array">Remove Duplicates from Sorted Array</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Given an integer array <code>nums</code> sorted in <strong>non-decreasing order</strong>, remove the duplicates <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank"><strong>in-place</strong></a> such that each unique element appears only <strong>once</strong>. The <strong>relative order</strong> of the elements should be kept the <strong>same</strong>.</p>
+# 🚀 Remove Duplicates from Sorted Array (Two Pointer Approach)
 
-<p>Consider the number of <em>unique elements</em> in&nbsp;<code>nums</code> to be <code>k<strong>​​​​​​​</strong></code>​​​​​​​. <meta charset="UTF-8" />After removing duplicates, return the number of unique elements&nbsp;<code>k</code>.</p>
+The **Remove Duplicates from Sorted Array** problem is a classic Two Pointer question. Since the array is already **sorted**, duplicate elements are placed next to each other, allowing us to remove them efficiently without using extra space.
 
-<p><meta charset="UTF-8" />The first&nbsp;<code>k</code>&nbsp;elements of&nbsp;<code>nums</code>&nbsp;should contain the unique numbers in <strong>sorted order</strong>. The remaining elements beyond index&nbsp;<code>k - 1</code>&nbsp;can be ignored.</p>
+---
 
-<p><strong>Custom Judge:</strong></p>
+## 📌 Problem Statement
 
-<p>The judge will test your solution with the following code:</p>
+Given a **sorted** integer array `nums`, remove the duplicates **in-place** such that each unique element appears only once.
 
-<pre>
-int[] nums = [...]; // Input array
-int[] expectedNums = [...]; // The expected answer with correct length
+Return the number of unique elements (`k`).
 
-int k = removeDuplicates(nums); // Calls your implementation
+> The first `k` elements of the array should contain the unique values.
 
-assert k == expectedNums.length;
-for (int i = 0; i &lt; k; i++) {
-    assert nums[i] == expectedNums[i];
-}
-</pre>
+---
 
-<p>If all assertions pass, then your solution will be <strong>accepted</strong>.</p>
+## 💻 Solution
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+```javascript
+var removeDuplicates = function(nums) {
+    let k = 1;
 
-<pre>
-<strong>Input:</strong> nums = [1,1,2]
-<strong>Output:</strong> 2, nums = [1,2,_]
-<strong>Explanation:</strong> Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-</pre>
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[k - 1] != nums[i]) {
+            nums[k] = nums[i];
+            k++;
+        }
+    }
 
-<p><strong class="example">Example 2:</strong></p>
+    return k;
+};
+```
 
-<pre>
-<strong>Input:</strong> nums = [0,0,1,1,1,2,2,3,3,4]
-<strong>Output:</strong> 5, nums = [0,1,2,3,4,_,_,_,_,_]
-<strong>Explanation:</strong> Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-</pre>
+---
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+# 🔍 How It Works
 
-<ul>
-	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li>
-	<li><code>-100 &lt;= nums[i] &lt;= 100</code></li>
-	<li><code>nums</code> is sorted in <strong>non-decreasing</strong> order.</li>
-</ul>
+### 1. Initialize `k`
+
+```javascript
+let k = 1;
+```
+
+`k` represents the position where the next unique element should be placed.
+
+Initially, the first element is always unique, so `k = 1`.
+
+---
+
+### 2. Traverse the Array
+
+```javascript
+for (let i = 0; i < nums.length; i++)
+```
+
+Visit every element one by one.
+
+---
+
+### 3. Compare Current Element
+
+```javascript
+if (nums[k - 1] != nums[i])
+```
+
+Compare the current element with the **last unique element**.
+
+- If they are the same → duplicate → skip it.
+- If they are different → unique → store it.
+
+---
+
+### 4. Store the Unique Element
+
+```javascript
+nums[k] = nums[i];
+k++;
+```
+
+Place the unique value at index `k`, then move `k` to the next position.
+
+---
+
+## 📖 Dry Run
+
+### Input
+
+```javascript
+nums = [1,1,2,2,3]
+```
+
+| `i` | `nums[i]` | Last Unique (`nums[k-1]`) | Action | Array | `k` |
+|----:|----------:|--------------------------:|--------|-------|----:|
+| 0 | 1 | 1 | Duplicate | `[1,1,2,2,3]` | 1 |
+| 1 | 1 | 1 | Duplicate | `[1,1,2,2,3]` | 1 |
+| 2 | 2 | 1 | Store | `[1,2,2,2,3]` | 2 |
+| 3 | 2 | 2 | Duplicate | `[1,2,2,2,3]` | 2 |
+| 4 | 3 | 2 | Store | `[1,2,3,2,3]` | 3 |
+
+Return:
+
+```javascript
+k = 3
+```
+
+The first `k` elements are:
+
+```javascript
+[1,2,3]
+```
+
+---
+
+## 🎯 Why This Works
+
+Since the array is **sorted**, all duplicate values appear together.
+
+Instead of creating a new array, we overwrite duplicate positions with the next unique element.
+
+This allows us to solve the problem **in-place** using only one extra variable.
+
+---
+
+## ⏱️ Complexity Analysis
+
+| Complexity | Value |
+|------------|-------|
+| **Time** | **O(n)** |
+| **Space** | **O(1)** |
+
+- **Time:** We traverse the array only once.
+- **Space:** No extra array is used.
+
+---
+
+## 🧠 Key Concepts
+
+- Uses the **Two Pointer** technique.
+- `i` scans every element in the array.
+- `k` tracks the position for the next unique element.
+- Since the array is sorted, duplicates are easy to detect.
+- The array is modified **in-place**, making the solution space efficient.
+
+---
+
+## ✅ Key Takeaways
+
+- The array **must be sorted**.
+- Compare each element with the last unique element.
+- Store only unique values.
+- Return `k`, the number of unique elements.
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(1)`
