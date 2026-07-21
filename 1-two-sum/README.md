@@ -1,41 +1,212 @@
-<h2><a href="https://leetcode.com/problems/two-sum">Two Sum</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Given an array of integers <code>nums</code>&nbsp;and an integer <code>target</code>, return <em>indices of the two numbers such that they add up to <code>target</code></em>.</p>
+# 🚀 Two Sum (Hash Map Approach)
 
-<p>You may assume that each input would have <strong><em>exactly</em> one solution</strong>, and you may not use the <em>same</em> element twice.</p>
+The **Two Sum** problem is one of the most common coding interview questions. It introduces the concept of a **Hash Map (Object in JavaScript)**, which helps reduce the time complexity from **O(n²)** to **O(n)**.
 
-<p>You can return the answer in any order.</p>
+---
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+## 📌 Problem Statement
 
-<pre>
-<strong>Input:</strong> nums = [2,7,11,15], target = 9
-<strong>Output:</strong> [0,1]
-<strong>Explanation:</strong> Because nums[0] + nums[1] == 9, we return [0, 1].
-</pre>
+Given an array of integers `nums` and an integer `target`, return the **indices** of the two numbers whose sum equals the target.
 
-<p><strong class="example">Example 2:</strong></p>
+### Example
 
-<pre>
-<strong>Input:</strong> nums = [3,2,4], target = 6
-<strong>Output:</strong> [1,2]
-</pre>
+```javascript
+nums = [2, 7, 11, 15]
+target = 9
+```
 
-<p><strong class="example">Example 3:</strong></p>
+Output:
 
-<pre>
-<strong>Input:</strong> nums = [3,3], target = 6
-<strong>Output:</strong> [0,1]
-</pre>
+```javascript
+[0, 1]
+```
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+Because:
 
-<ul>
-	<li><code>2 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>9</sup> &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
-	<li><code>-10<sup>9</sup> &lt;= target &lt;= 10<sup>9</sup></code></li>
-	<li><strong>Only one valid answer exists.</strong></li>
-</ul>
+```text
+nums[0] + nums[1] = 2 + 7 = 9
+```
 
-<p>&nbsp;</p>
-<strong>Follow-up:&nbsp;</strong>Can you come up with an algorithm that is less than <code>O(n<sup>2</sup>)</code><font face="monospace">&nbsp;</font>time complexity?
+---
+
+## 💻 Solution
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    const track = {};
+
+    for (let i = 0; i < nums.length; i++) {
+        const element = target - nums[i];
+
+        if (track[element] !== undefined) {
+            return [track[element], i];
+        }
+
+        track[nums[i]] = i;
+    }
+
+    return [];
+};
+```
+
+---
+
+# 🔍 How It Works
+
+### 1. Create a Hash Map
+
+```javascript
+const track = {};
+```
+
+The object stores previously visited numbers as:
+
+```text
+Number → Index
+```
+
+Example:
+
+```javascript
+{
+  2: 0,
+  7: 1
+}
+```
+
+---
+
+### 2. Traverse the Array
+
+```javascript
+for (let i = 0; i < nums.length; i++)
+```
+
+Visit each element only **once**.
+
+---
+
+### 3. Find the Complement
+
+```javascript
+const element = target - nums[i];
+```
+
+Instead of searching for another number, calculate the number needed to reach the target.
+
+**Formula**
+
+```text
+Complement = Target - Current Number
+```
+
+Example:
+
+```text
+Target = 9
+Current = 2
+
+Need = 9 - 2 = 7
+```
+
+---
+
+### 4. Check if the Complement Exists
+
+```javascript
+if (track[element] !== undefined)
+```
+
+If the complement is already stored in the object, we've found the answer.
+
+Return:
+
+```javascript
+return [track[element], i];
+```
+
+> We return **indices**, not the numbers themselves.
+
+---
+
+### 5. Store the Current Number
+
+```javascript
+track[nums[i]] = i;
+```
+
+Save the current number and its index for future lookups.
+
+Example:
+
+```javascript
+track[7] = 1;
+```
+
+---
+
+## 📖 Dry Run
+
+Input:
+
+```javascript
+nums = [2,7,11,15]
+target = 9
+```
+
+| Iteration | Current | Need | Track | Action |
+|-----------|---------|------|-------|--------|
+| 1 | 2 | 7 | `{}` | Store `2 → 0` |
+| 2 | 7 | 2 | `{2:0}` | Found → Return `[0,1]` |
+
+---
+
+## ❓ Why `!== undefined`?
+
+Instead of writing:
+
+```javascript
+if(track[element])
+```
+
+we use:
+
+```javascript
+if(track[element] !== undefined)
+```
+
+Because index `0` is a valid answer, but `0` is considered **false** in JavaScript.
+
+---
+
+## ⏱️ Complexity Analysis
+
+| Complexity | Value |
+|------------|-------|
+| **Time** | **O(n)** |
+| **Space** | **O(n)** |
+
+---
+
+## 🆚 Brute Force vs Hash Map
+
+| Approach | Time | Space |
+|----------|------|-------|
+| Nested Loops | O(n²) | O(1) |
+| Hash Map | O(n) | O(n) |
+
+---
+
+## ✅ Key Takeaways
+
+- Use a **Hash Map** to store previously visited numbers.
+- Calculate the **complement** using `target - currentNumber`.
+- Check if the complement already exists before storing the current number.
+- Store **Number → Index** pairs.
+- Time complexity improves from **O(n²)** to **O(n)**.
+- This pattern is widely used in interview problems involving Hash Maps.
