@@ -3,14 +3,17 @@
  * @return {number}
  */
 var maxProduct = function(nums) {
-  let maxProduct = 0;
-   for(let i = 0; i<nums.length; i++){
-    for(let j = i + 1; j<nums.length; j++){
-       let product = (nums[i]-1) * (nums[j]-1)
-        if(product > maxProduct){
-        maxProduct = product
+  let first = 0;
+  let sec = 0;
+
+  for(let num of nums){
+    if(num >= first){
+        sec = first;
+        first = num
     }
-    }
-   }
-   return maxProduct
+    else if(num > sec)
+        sec = num
+    
+  }
+  return (first - 1) * (sec - 1)
 };
