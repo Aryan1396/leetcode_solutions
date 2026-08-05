@@ -1,11 +1,11 @@
 var containsDuplicate = function(nums) {
-  const resultSet = new Set();
-
-  for(const n of nums){
-    if(resultSet.has(n)){
-        return true
+    nums.sort((a, b) => a - b);
+    
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] === nums[i - 1]) {
+            return true;
+        }
     }
-    resultSet.add(n)
-  }
-  return false
+    
+    return false;    
 };
