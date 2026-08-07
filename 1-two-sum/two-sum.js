@@ -4,14 +4,15 @@
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
-  const track = {}
-  for(let i = 0; i<nums.length; i++){
-    const element = target - nums[i]
+    let map = new Map();
 
-    if(track[element] !== undefined){
-        return [track[element], i]
+    for(let i = 0; i<nums.length; i++){
+        let element = target - nums[i];
+
+        if(map.has(element)){
+          return  [map.get(element),i]
+        }
+        map.set(nums[i], i);
     }
-    track[nums[i]] = i
-  }
-  return []
-};
+    return []
+}
