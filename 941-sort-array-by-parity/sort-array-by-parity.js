@@ -8,11 +8,7 @@ var sortArrayByParity = function(nums) {
         if(num % 2 === 0){
             result.unshift(num)
         }
-    }
-      for(let num of nums){
-        if(num % 2 !== 0){
-            result.push(num)
-        }
+        else result.push(num)
     }
     return result
 };
